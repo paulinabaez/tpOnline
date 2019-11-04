@@ -1,0 +1,32 @@
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover" *ngIf="!empty">
+    <thead>
+        <tr>
+            <th *ngFor="let label of labels"> {{ label }} </th>
+            <ng-container *ngIf="customButtons">
+                <th *ngFor="let label of cblabels" class="no-sort text-center">{{ label }}</th>
+            </ng-container>
+            <th *ngIf="edit" class="text-center"> Editar </th>
+            <th *ngIf="delete" class="text-center"> Eliminar </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of rows; let i = index">
+            <td *ngFor="let data of row"  [innerHTML]="data | safeHtml"></td>
+            <ng-container *ngIf="customButtons">
+                <td *ngFor="let button of botones; let tipo = index" class="text-center">
+                    <i [class]="button" (click)="customEvt( cblabels[tipo], i)"></i>
+                </td>
+            </ng-container>
+            <td *ngIf="edit" class="text-center">
+                <i class="mdi mdi-lead-pencil text-success pointer" (click)="onEdit( i )"></i>
+            </td>
+            <td *ngIf="delete" class="text-center">
+                <i class="mdi mdi-delete-empty text-danger pointer" (click)="onDelete( i )"></i>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="alert alert-danger col-12 text-center" *ngIf="empty">
+    No hay datos.
+</div>
